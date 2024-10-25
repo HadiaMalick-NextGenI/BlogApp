@@ -21,7 +21,11 @@
         <div class="row">
             <div class="col-7">
                 <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
-                <a href="{{ route('blogs.index') }}" class="btn btn-primary">Go to Blogs</a> 
+                @hasrole('editor|admin')
+                    <a href="{{ route('users.index') }}" class="btn btn-primary">Go to Users</a>
+                @else
+                    <a href="{{ route('blogs.index') }}" class="btn btn-primary">Go to Blogs</a>
+                @endhasrole
             </div>
         </div>
     </div>

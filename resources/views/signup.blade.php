@@ -82,6 +82,10 @@
             </span>
         </div>
 
+        <div class="form-group">
+            <input type="hidden" class="form-control" id="profile_picture" name="roles" value="user">
+        </div>
+
         <button type="submit" class="btn btn-primary">Signup</button>
     </form>
 @endsection

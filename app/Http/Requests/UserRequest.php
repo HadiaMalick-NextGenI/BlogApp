@@ -21,7 +21,7 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
@@ -30,7 +30,15 @@ class UserRequest extends FormRequest
             'age' => 'nullable|integer|min:0', 
             'city' => 'nullable|string|max:255',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'roles' => 'required', 
         ];
+    
+        if ($this->isMethod('put')) {
+            $rules['password'] = 'nullable';
+            $rules['email'] = 'required|string|email|max:255';
+        }
+    
+        return $rules;
     }
 
     public function messages() {

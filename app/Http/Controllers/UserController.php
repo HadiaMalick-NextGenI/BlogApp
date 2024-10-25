@@ -31,21 +31,21 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $request->validate(
-            [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'phone' => 'nullable|string|max:15',
-            'dob' => 'nullable|date',
-            'age' => 'nullable|integer|min:0', 
-            'city' => 'nullable|string|max:255',
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'roles' => 'required',
-            ]
-        );
+        // $request->validate(
+        //     [
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users',
+        //     'password' => 'required|string|min:8',
+        //     'phone' => 'nullable|string|max:15',
+        //     'dob' => 'nullable|date',
+        //     'age' => 'nullable|integer|min:0', 
+        //     'city' => 'nullable|string|max:255',
+        //     'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        //     'roles' => 'required', 
+        //     ]
+        // );
         
         $path = $request['profile_picture']->store('profile_pictures', 'public');
         
@@ -79,39 +79,39 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('users.edit', compact('user', 'roles'));
+        $userRoles = $user->getRoleNames()->toArray();
+
+        return view('users.edit', compact('user', 'roles', 'userRoles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        $request->validate(
-            //password, roles, profile picture
-            [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255', //removed unique:users
-            'phone' => 'nullable|string|max:15',
-            'dob' => 'nullable|date',
-            'age' => 'nullable|integer|min:0', 
-            'city' => 'nullable|string|max:255',
-            'roles' => 'required',
-            ]
-        );
-
-        $user->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
-            'dob' => $request->input('dob'),
-            'age' => $request->input('age'),
-            'city' => $request->input('city'),
-            'password' => $user->password ,
-            'profile_picture' => $user->profile_picture ,
-        ]);
-
-        return redirect()->route('users.index')->with('success', 'User info updated successfully.');
+        try{
+            if ($request->hasFile('profile_picture')) {
+                $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+           
+                $user->profile_picture = $path;
+            }
+            
+            $user->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'dob' => $request->input('dob'),
+                'age' => $request->input('age'),
+                'city' => $request->input('city'),
+            ]);
+            
+            $user->save();
+            
+            return redirect()->route('users.index')->with('success', 'User info updated successfully.');
+            
+        } catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**

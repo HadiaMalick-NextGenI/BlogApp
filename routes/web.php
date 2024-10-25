@@ -5,7 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\AuthorizationMiddleware;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -40,7 +40,7 @@ Route::middleware(AuthMiddleware::class)->group(function() {
             return redirect()->route('blogs.index')->with('error', 'Blog not found.');
         });
 
-    Route::middleware(AdminMiddleware::class)->group(function() {
+    Route::middleware(AuthorizationMiddleware::class)->group(function() {
         Route::resource('users', UserController::class);
     });
 });

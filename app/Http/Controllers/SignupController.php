@@ -31,7 +31,9 @@ class SignupController extends Controller
                 'profile_picture' => $path,
             ]);
 
-            $user->assignRole('user');
+            $user->assignRole($request->input('roles'));
+
+            //$user->assignRole('user');
     
             return redirect()->route('login')->with('success', 'Registration successful! You can now log in.');
 

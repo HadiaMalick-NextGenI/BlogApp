@@ -20,14 +20,19 @@
             </select>
         </div>         --}}
 
-        <div class="form-group">
-            <label for="name">Role:</label>
-            <select name="roles[]" class="form-control" multiple>
-                @foreach ($roles as $role)
-                    <option value="{{ $role->name }}">{{ $role->name }}</option>
-                @endforeach
-            </select>
-        </div>   
+        @role('admin')
+            <div class="form-group">
+                <label for="name">Role:</label>
+                <select name="roles[]" class="form-control" multiple>
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->name }}" 
+                            @if (in_array($role->name, $userRoles)) selected @endif>
+                            {{ $role->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div> 
+        @endrole 
 
         <div class="form-group">
             <label for="name">Name:</label>
@@ -93,8 +98,10 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="city">Upload Image:</label>
-            <input type="file" class="form-control" name="profile_picture" id="profile_picture" value="{{ old('profile_picture', $user->profile_picture) }}" accept="jpeg,png,jpg">
+            <label for="city">Change Image:</label>
+            <img src="{{ asset('/storage/' . $user->profile_picture) }}" alt="Profile Picture" class="img-fluid w-25" />
+            <input type="file" class="form-control" name="profile_picture" id="profile_picture" accept="jpeg,png,jpg"> 
+            {{-- value="{{ old('profile_picture', $user->profile_picture) }}" --}}
             <span class="text-danger">
                 @error('profile_picture')
                     {{ $message }}
