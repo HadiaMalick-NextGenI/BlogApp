@@ -12,12 +12,13 @@
         <div class="mt-4">
             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
 
-            <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
-            </form>
-
+            @role('admin')
+                <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+                </form>
+            @endrole
             <a href="{{ route('users.index') }}" class="btn btn-secondary">Back to Users</a>
         </div>
     </div>
