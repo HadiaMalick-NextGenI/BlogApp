@@ -22,9 +22,9 @@ class Blog extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function scopeFindById($query, $id){
-        return $query->findOrFail($id); 
-    }
+    // public function scopeFindById($query, $id){
+    //     return $query->findOrFail($id); 
+    // }
     public function scopeFilterByStatus($query, $status)
     {
         return $query->where('status', $status);
