@@ -16,9 +16,27 @@ class AuthorizationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || (!Auth::user()->hasRole('admin') && !Auth::user()->hasRole('editor'))) {
-            return redirect('/home')->with('error', 'You do not have permission to access this page.');
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'You do not have permission to access this page.');
         }
-        return $next($request);
+
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            return $next($request);
+        }
+
+        if ($user->hasRole('editor')) {
+            if ($request->isMethod('post') && $request->is('users') || 
+                $request->isMethod('delete') && $request->is('users/*') || 
+                $request->is('users/create')) {
+                return redirect()->back()->with('error', 'You do not have permission to perform this action.');
+            }
+
+            return $next($request);
+        }
+
+        return redirect()->back()->with('error', 'You do not have permission to access this page.');
     }
+
 }
