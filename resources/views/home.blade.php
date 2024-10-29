@@ -8,12 +8,13 @@
                 {{ session('error') }}
             </div>
         @endif
-        <h2 class="mt-5">Welcome {{ Auth::user()->name }}</h2>
+        <h2 class="mt-5">Welcome</h2>
         <div class="container">
             <h1>Profile</h1>
             <div class="profile">
                 {{-- <img src="{{ url('storage/' . $user->profile_picture) }}" alt="Profile Picture" class="img-fluid" /> --}}
-                <img src="{{ asset('/storage/' . $user->profile_picture) }}" alt="Profile Picture" class="img-fluid w-25" />
+                <img src="{{ $user->profile_picture ? asset('/storage/' . $user->profile_picture) : asset('storage/profile_pictures/YOqlmkCpNiwvAdshF6MusvLP38S49tMisTW5mF9q.png') }}" 
+                    alt="Profile Picture" class="img-fluid w-25" />           
                 <h2>{{ $user->name }}</h2>
                 <p>Email: {{ $user->email }}</p>
             </div>
