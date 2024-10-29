@@ -18,7 +18,9 @@ class SignupController extends Controller
     public function register(UserRequest $request)
     {
         try{
-            $path = $request['profile_picture']->store('profile_pictures', 'public');
+            if($request['profile_pticture'] != null){
+                $path = $request['profile_picture']->store('profile_pictures', 'public');
+            }
         
             $user = User::create([
                 'name' => $request->name,
@@ -28,7 +30,7 @@ class SignupController extends Controller
                 'dob' => $request->dob,
                 'age' => $request->age,
                 'city' => $request->city,
-                'profile_picture' => $path,
+                'profile_picture' => $path?? null,
             ]);
 
             $user->assignRole($request->input('roles'));
