@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserRequest extends FormRequest
 {
@@ -30,12 +31,14 @@ class UserRequest extends FormRequest
             'age' => 'nullable|integer|min:0', 
             'city' => 'nullable|string|max:255',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'roles' => 'required', 
         ];
     
         if ($this->isMethod('put')) {
             $rules['password'] = 'nullable';
             $rules['email'] = 'required|string|email|max:255';
+            if(Auth::user()->hasRole('admin')){
+                $rules['roles'] = 'required|array';
+            }
         }
     
         return $rules;
