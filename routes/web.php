@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\CookiesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
@@ -27,6 +28,11 @@ Route::get('/', [SessionController::class , 'index']);
 Route::get('/store-session', [SessionController::class , 'storeSession']);
 
 Route::get('/delete-session', [SessionController::class , 'deleteSession']);
+
+Route::get('/show-view', [CookiesController::class, 'showView'])->name('show-view');
+Route::post('/set-cookie', [CookiesController::class, 'setCookie'])->name('set-cookie');
+Route::get('/get-cookie', [CookiesController::class , 'getCookie']);
+Route::get('/delete-cookie', [CookiesController::class , 'deleteCookie']);
 
 Route::get('/login', [LoginController::class,'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'handleLogin']);
