@@ -2,70 +2,50 @@
 
 @section('content')
 
-    <div class="container">
-        @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-        <h2 class="mt-5">Welcome</h2>
-        <div class="container">
-            <h1>Profile</h1>
-            <div class="profile">
-                {{-- <img src="{{ url('storage/' . $user->profile_picture) }}" alt="Profile Picture" class="img-fluid" /> --}}
-                <img src="{{ $user->profile_picture ? asset('/storage/' . $user->profile_picture) : asset('storage/profile_pictures/YOqlmkCpNiwvAdshF6MusvLP38S49tMisTW5mF9q.png') }}" 
-                    alt="Profile Picture" class="img-fluid w-25" />           
-                <h2>{{ $user->name }}</h2>
-                <p>Email: {{ $user->email }}</p>
-            </div>
+<div class="container">
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
         </div>
-        <div class="row">
-            <div class="col-7">
-                <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
-                @hasrole('editor|admin')
-                    <a href="{{ route('users.index') }}" class="btn btn-primary">Go to Users</a>
-                @else
-                    <a href="{{ route('blogs.index') }}" class="btn btn-primary">Go to Blogs</a>
-                @endhasrole
-            </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    <div class="profile text-center mt-4">
+        <h1>Profile</h1>
+        <img src="{{ $user->profile_picture ? asset('/storage/' . $user->profile_picture) : asset('storage/profile_pictures/YOqlmkCpNiwvAdshF6MusvLP38S49tMisTW5mF9q.png') }}" 
+             alt="Profile Picture" class="img-fluid rounded-circle w-25" />
+        <h2 class="mt-3">{{ $user->name }}</h2>
+        <p>Email: {{ $user->email }}</p>
+        <p class="mt-3">
+            <a href="{{ route('profile.edit') }}" class="btn btn-warning">Edit Profile</a>
+        </p>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
+            @hasrole('editor|admin')
+                <a href="{{ route('users.index') }}" class="btn btn-primary">Go to Users</a>
+            @else
+                <a href="{{ route('blogs.index') }}" class="btn btn-primary">Go to Blogs</a>
+            @endhasrole
         </div>
     </div>
+</div>
+
 @endsection
-
-
-{{-- <div class="row">
-            <div class="col-7">
-                <table class="table table-striped table-bordered">
-                    @foreach ($users as $user)
-                        <tr>
-                            <td> {{ $user->name }} </td>
-                            <td> {{ $user->email }} </td>
-                            <td> {{ $user->phone }} </td>
-                            <td> {{ $user->age }} </td>
-                            <td> {{ $user->city }} </td>
-                        </tr>
-                    @endforeach
-                </table>
-            </div>
-        </div> --}}
-
-
- {{-- <div class="container mt-5">
-        <h1 class="mb-4">Even Numbers</h1>
-        <ul class="list-group mb-5">
-            @foreach ($numbers as $number)
-                @if ($number % 2 == 0)
-                    <li class="list-group-item">{{ $number }}</li>
-                @endif
-            @endforeach
-        </ul>
-
-        <h1 class="mb-4">Users</h1>
-        <ul class="list-group">
-            @forelse ($users as $user)
-                <li class="list-group-item">{{ $user->name }}</li>
-            @empty
-                <li class="list-group-item">No users</li>
-            @endforelse
-        </ul>
-    </div> --}}
