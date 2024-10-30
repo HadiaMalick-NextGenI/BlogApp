@@ -15,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::get();
+        //$users = User::get();
+        $users = User::paginate(5);
         return view('users.index', ['users' => $users]);
     }
 
@@ -70,6 +71,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user->load('blogs');
         return view('users.view', compact('user'));
     }
 
@@ -105,6 +107,7 @@ class UserController extends Controller
                 'city' => $request->input('city'),
             ]);
             
+            $user->syncRoles($request->roles);
             $user->save();
             
             return redirect()->route('users.index')->with('success', 'User info updated successfully.');
