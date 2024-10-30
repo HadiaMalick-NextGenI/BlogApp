@@ -62,11 +62,10 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        if ($blog->user_id !== Auth::id()) {
+        if (!Auth::user()->hasRole('admin') && !Auth::user()->hasRole('editor') && $blog->user_id !== Auth::id()) {
             abort(403); 
         }
-        //$blog = Blog::findById($id);
-        //$blog = User::find($blog->id)->blog;
+        
         return view('blogs.view', compact('blog'));
     }
 
@@ -75,7 +74,6 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        //$blog = Blog::findById($id);
         return view('blogs.edit', compact('blog'));
     }
 
