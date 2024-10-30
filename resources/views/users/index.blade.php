@@ -38,7 +38,6 @@
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>
-                            {{-- editor can view or edit, delete button should only be visible to admin --}}
                             <a href="{{ route('users.show', $user->id) }}" class="btn btn-info">View</a> 
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
                             @role('admin')
@@ -53,5 +52,6 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $users->onEachSide(1)->links() }}
     @endif
 @endsection
