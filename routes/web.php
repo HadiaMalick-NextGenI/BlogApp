@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AuthorizationMiddleware;
@@ -19,6 +22,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', [SessionController::class , 'index']);
+
+Route::get('/store-session', [SessionController::class , 'storeSession']);
+
+Route::get('/delete-session', [SessionController::class , 'deleteSession']);
 
 Route::get('/login', [LoginController::class,'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'handleLogin']);
@@ -28,10 +36,6 @@ Route::post('/register', [SignupController::class, 'register'])->name('register'
 
 Route::middleware(AuthMiddleware::class)->group(function() {
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
-
     Route::get('/home', 
     [LoginController::class, 'showHome'])->name('home');
 
@@ -40,9 +44,14 @@ Route::middleware(AuthMiddleware::class)->group(function() {
             return redirect()->route('blogs.index')->with('error', 'Blog not found.');
         });
 
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update/{user}', [ProfileController::class, 'update'])->name('profile.update');
+
     Route::middleware(AuthorizationMiddleware::class)->group(function() {
         Route::resource('users', UserController::class);
     });
 });
+
+Route::get('/collection', [CollectionController::class, 'test']);
 
 Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
