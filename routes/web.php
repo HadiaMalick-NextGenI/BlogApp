@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CookiesController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
@@ -52,6 +54,9 @@ Route::middleware(AuthMiddleware::class)->group(function() {
 
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/update/{user}', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/contact', [ContactController ::class, 'show'])->name('contact.show');
+    Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
     Route::middleware(AuthorizationMiddleware::class)->group(function() {
         Route::resource('users', UserController::class);
