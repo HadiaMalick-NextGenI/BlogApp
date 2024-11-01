@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactEmail;
 use App\Mail\WelcomeEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,5 +22,16 @@ class EmailController extends Controller
 
         Mail::to($user->email)->cc($ccUser)
             ->send(new WelcomeEmail($message, $subject, $details, $picture));
+    }
+
+    public function sendContactEmail(array $data, $filePath)
+    {
+        $toEmail = "hadia.malick@nextgeni.com";
+        $name = $data['name'];
+        $email = $data['email'];
+        $subject = $data['subject'];
+        $messageContent = $data['message'];
+
+        Mail::to($toEmail)->send(new ContactEmail($name, $email, $subject, $messageContent, $filePath));
     }
 }
