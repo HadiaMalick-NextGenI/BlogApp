@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Hash;
 
 class SignupController extends Controller
 {
+    protected $emailController;
+
+    public function __construct(EmailController $emailController)
+    {
+        $this->emailController = $emailController;
+    }
+
     public function showSignupForm()
     {
         return view('signup');
@@ -18,7 +25,7 @@ class SignupController extends Controller
     public function register(UserRequest $request)
     {
         try{
-            if($request['profile_pticture'] != null){
+            if($request['profile_picture']){
                 $path = $request['profile_picture']->store('profile_pictures', 'public');
             }
         
@@ -35,6 +42,8 @@ class SignupController extends Controller
 
             $user->assignRole($request->input('roles'));
 
+            $this->emailController->sendEmail($user);
+            
             //$user->assignRole('user');
     
             return redirect()->route('login')->with('success', 'Registration successful! You can now log in.');
