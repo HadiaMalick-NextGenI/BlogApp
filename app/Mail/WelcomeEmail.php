@@ -45,7 +45,7 @@ class WelcomeEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.welcome_mail',
+            view: 'mail.welcome',
             // with: [
             //     'product' => $this->details['product'],
             //     'price' => $this->details['price'],
