@@ -32,6 +32,6 @@ class EmailController extends Controller
         $subject = $data['subject'];
         $messageContent = $data['message'];
 
-        Mail::to($toEmail)->send(new ContactEmail($name, $email, $subject, $messageContent, $filePath));
+        Mail::to($toEmail)->queue(new ContactEmail($name, $email, $subject, $messageContent, $filePath));
     }
 }
