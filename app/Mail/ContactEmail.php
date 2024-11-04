@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ContactEmail extends Mailable
+class ContactEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -38,7 +38,7 @@ class ContactEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Contact Email',
+            subject: $this->subject,
         );
     }
 
