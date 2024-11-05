@@ -23,17 +23,16 @@ class LoginController extends Controller
                 'email' => 'required|email',
                 'password' => 'required',
             ]);
+            $remember = $request->has('remember');
 
-            if(Auth::attempt($credentials)){
+            if(Auth::attempt($credentials, $remember)){
                 $request->session()->regenerate();
 
-                return redirect()->route('home');
+                return redirect()->route('home')->with('success', 'Login successful');
             }else{
                 return redirect('/login')->with('error', 'Credentials didn\'t match');
             }
             //dd($request->all());
-
-            //return redirect('/login')->with('error', 'Login functionality not implemented yet.');
 
         } catch(\Exception $e){
             return redirect()->route('login')->with('error', $e->getMessage());

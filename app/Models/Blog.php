@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Blog extends Model
 {
@@ -16,6 +17,13 @@ class Blog extends Model
         'status',
         'user_id'
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($blog) {
+            $blog->slug = Str::slug($blog->title);
+        });
+    }
 
     public function user()
     {
