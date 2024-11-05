@@ -15,7 +15,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        //$users = User::get();
         $users = User::simplePaginate(5);
         return view('users.index', ['users' => $users]);
     }
@@ -34,36 +33,26 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        // $request->validate(
-        //     [
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:users',
-        //     'password' => 'required|string|min:8',
-        //     'phone' => 'nullable|string|max:15',
-        //     'dob' => 'nullable|date',
-        //     'age' => 'nullable|integer|min:0', 
-        //     'city' => 'nullable|string|max:255',
-        //     'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        //     'roles' => 'required', 
-        //     ]
-        // );
+        try{
+            $path = $request['profile_picture']->store('profile_pictures', 'public');
         
-        $path = $request['profile_picture']->store('profile_pictures', 'public');
-        
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'dob' => $request->dob,
-            'age' => $request->age,
-            'city' => $request->city,
-            'profile_picture' => $path,
-        ]);
-        
-        $user->syncRoles($request->roles);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'dob' => $request->dob,
+                'age' => $request->age,
+                'city' => $request->city,
+                'profile_picture' => $path,
+            ]);
+            
+            $user->syncRoles($request->roles);
 
-        return redirect()->route('users.index')->with('success', 'Blog created successfully!');
+            return redirect()->route('users.index')->with('success', 'Blog created successfully!');
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', 'An error occured while creating user '.$e->getMessage());
+        }
     }
 
     /**
