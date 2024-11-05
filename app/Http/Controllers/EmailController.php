@@ -21,7 +21,7 @@ class EmailController extends Controller
         $picture = $user->profile_picture;
 
         Mail::to($user->email)->cc($ccUser)
-            ->send(new WelcomeEmail($message, $subject, $details, $picture));
+            ->queue(new WelcomeEmail($message, $subject, $details, $picture));
     }
 
     public function sendContactEmail(array $data, $filePath)
