@@ -7,6 +7,7 @@ use App\Http\Controllers\CookiesController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SignupController;
@@ -57,6 +58,9 @@ Route::middleware(AuthMiddleware::class)->group(function() {
 
     Route::get('/contact', [ContactController ::class, 'show'])->name('contact.show');
     Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
+    Route::get('/notifications', [NotificationController::class, 'showNotifications'])->name('notifications.index');
+    Route::patch('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 
     Route::middleware(AuthorizationMiddleware::class)->group(function() {
         Route::resource('users', UserController::class);
