@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BlogPublished extends Notification
+class BlogPublished extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -41,7 +41,7 @@ class BlogPublished extends Notification
         return (new MailMessage)
             ->subject('New Blog Published')
             ->line('A new blog post has been published on the platform!')
-            ->action('Read Blog', $url)
+            ->action('Read Blog '.$this->blog->title, $url)
             ->line('Thank you for being part of our community!');
     }
 
