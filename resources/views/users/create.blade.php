@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<h2 class="mt-5">Create New User</h2>
+<h2 class="mt-5">{{__('Create New User')}}</h2>
     @if(session('error'))
     <div class="alert alert-danger">
         {{ session('error') }}
@@ -11,7 +11,7 @@
         @csrf
 
         <div class="form-group">
-            <label for="name">Role:</label>
+            <label for="name">{{__('Role')}}</label>
             <select name="roles[]" class="form-control" multiple>
                 @foreach ($roles as $role)
                     <option value="{{ $role->name }}">{{ $role->name }}</option>
@@ -20,7 +20,7 @@
         </div>        
 
         <div class="form-group">
-            <label for="name">Name:</label>
+            <label for="name">{{__('Name')}}</label>
             <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" required>
             <span class="text-danger">
                 @error('name')
@@ -29,7 +29,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="email">Email:</label>
+            <label for="email">{{__('Email')}}</label>
             <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" required>
             <span class="text-danger">
                 @error('email')
@@ -38,7 +38,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="password">Password:</label>
+            <label for="password">{{__('Password')}}</label>
             <input type="password" class="form-control" name="password" id="password" value="{{ old('password') }}" required>
             <span class="text-danger">
                 @error('password')
@@ -47,7 +47,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="phone">Phone:</label>
+            <label for="phone">{{__('Phone')}}</label>
             <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}">
             <span class="text-danger">
                 @error('phone')
@@ -56,7 +56,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="dob">Date of Birth:</label>
+            <label for="dob">{{__('Date of Birth')}}</label>
             <input type="date" class="form-control" name="dob" id="dob" value="{{ old('dob') }}">
             <span class="text-danger">
                 @error('dob')
@@ -65,7 +65,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="age">Age:</label>
+            <label for="age">{{__('Age')}}</label>
             <input type="number" class="form-control" name="age" id="age" value="{{ old('age') }}">
             <span class="text-danger">
                 @error('age')
@@ -74,7 +74,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="city">City:</label>
+            <label for="city">{{__('City')}}</label>
             <input type="text" class="form-control" name="city" id="city" value="{{ old('city') }}">
             <span class="text-danger">
                 @error('city')
@@ -83,7 +83,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="city">Upload Image:</label>
+            <label for="city">{{__('Upload Image')}}</label>
             <input type="file" class="form-control" name="profile_picture" id="profile_picture" value="{{ old('profile_picture') }}" accept="jpeg,png,jpg">
             <span class="text-danger">
                 @error('profile_picture')
@@ -92,6 +92,6 @@
             </span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary">{{__('Create')}}</button>
     </form>
 @endsection

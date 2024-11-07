@@ -53,7 +53,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single', 'custom'],
             'ignore_exceptions' => false,
         ],
 
@@ -61,6 +61,16 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'custom' => [
+            'driver' => 'monolog',
+            'handler' => StreamHandler::class,
+            'tap' => [App\Logging\CustomJsonFormatter::class], 
+            'with' => [
+                'stream' => storage_path('logs/custom.log'), 
+                'level' => 'error', 
+            ],
         ],
 
         'daily' => [

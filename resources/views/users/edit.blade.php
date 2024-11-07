@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<h2 class="mt-5">Edit User Info</h2>
+<h2 class="mt-3">{{__('Edit User Info')}}</h2>
     @if(session('error'))
     <div class="alert alert-danger">
         {{ session('error') }}
@@ -22,7 +22,7 @@
 
         @role('admin')
             <div class="form-group">
-                <label for="name">Role:</label>
+                <label for="name">{{__('Role:')}}</label>
                 <select name="roles[]" class="form-control" multiple>
                     @foreach ($roles as $role)
                         <option value="{{ $role->name }}" 
@@ -35,7 +35,7 @@
         @endrole 
 
         <div class="form-group">
-            <label for="name">Name:</label>
+            <label for="name">{{__('Name')}}</label>
             <input type="text" class="form-control" name="name" id="name" value="{{ old('name' , $user->name)}}" required>
             <span class="text-danger">
                 @error('name')
@@ -44,7 +44,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="email">Email:</label>
+            <label for="email">{{__('Email:')}}</label>
             <input type="email" class="form-control" name="email" id="email" value="{{ old('email', $user->email) }}" required>
             <span class="text-danger">
                 @error('email')
@@ -62,7 +62,7 @@
             </span>
         </div> --}}
         <div class="form-group">
-            <label for="phone">Phone:</label>
+            <label for="phone">{{__('Phone:')}}</label>
             <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone', $user->phone) }}">
             <span class="text-danger">
                 @error('phone')
@@ -71,7 +71,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="dob">Date of Birth:</label>
+            <label for="dob">{{__('Date of Birth:')}}</label>
             <input type="date" class="form-control" name="dob" id="dob" value="{{ old('dob', $user->dob) }}">
             <span class="text-danger">
                 @error('dob')
@@ -80,7 +80,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="age">Age:</label>
+            <label for="age">{{__('Age:')}}</label>
             <input type="number" class="form-control" name="age" id="age" value="{{ old('age', $user->age) }}">
             <span class="text-danger">
                 @error('age')
@@ -89,7 +89,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="city">City:</label>
+            <label for="city">{{__('City:')}}</label>
             <input type="text" class="form-control" name="city" id="city" value="{{ old('city', $user->city) }}">
             <span class="text-danger">
                 @error('city')
@@ -98,7 +98,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="city">Change Image:</label>
+            <label for="city">{{__('Profile Picture:')}}</label>
             <img src="{{ asset('/storage/' . $user->profile_picture) }}" alt="Profile Picture" class="img-fluid w-25" />
             <input type="file" class="form-control" name="profile_picture" id="profile_picture" accept="jpeg,png,jpg"> 
             {{-- value="{{ old('profile_picture', $user->profile_picture) }}" --}}
@@ -109,7 +109,7 @@
             </span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">{{__('Update')}}</button>
+        <a href="{{ route('users.index') }}" class="btn btn-secondary">{{__('Cancel')}}</a>
     </form>
 @endsection
