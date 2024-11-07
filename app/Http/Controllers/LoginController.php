@@ -10,7 +10,7 @@ use App\Models\User;
 class LoginController extends Controller
 {
     public function showLoginForm(){
-        $data = "Welcome!";
+        $data = __('Welcome');
 
         return view("login")->with('data', $data);
         //OR return view('login', ['data' => $data]);
