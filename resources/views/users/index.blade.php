@@ -1,10 +1,10 @@
 @extends('layout.app')
 
 @section('content')
-    <h1 class="my-4">Users</h1>
+    <h1 class="my-4">{{__('Users')}}</h1>
 
     @role('admin')
-        <a href="{{ route('users.create') }}" class="btn btn-success mb-3">Create New User</a>
+        <a href="{{ route('users.create') }}" class="btn btn-success mb-3">{{__('Create New User')}}</a>
     @endrole
     
     @if (session('success'))
@@ -21,15 +21,15 @@
 
     @if ($users->isEmpty())
         <div class="alert alert-warning" role="alert">
-            No posts found.
+            {{__('No posts found.')}}
         </div>
     @else
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Actions</th>
+                    <th>{{__('ID')}}</th>
+                    <th>{{__('Name')}}</th>
+                    <th>{{__('Actions')}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,13 +38,13 @@
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>
-                            <a href="{{ route('users.show', $user->id) }}" class="btn btn-info">View</a> 
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+                            <a href="{{ route('users.show', $user->id) }}" class="btn btn-info">{{__('View')}}</a> 
+                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">{{__('Edit')}}</a>
                             @role('admin')
                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">{{__('Delete')}}</button>
                                 </form>
                             @endrole
                         </td>

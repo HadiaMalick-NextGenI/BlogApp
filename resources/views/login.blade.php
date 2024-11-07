@@ -17,6 +17,6 @@
     <form method="POST" action="/login">
         @csrf
         @include('partials.form')
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary">{{__('Login')}}</button>
     </form>
 @endsection
