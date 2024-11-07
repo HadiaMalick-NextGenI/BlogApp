@@ -26,7 +26,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [SessionController::class , 'index']);
+
+Route::get('language/{locale}', function ($locale) {
+    app()->setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
+});
+
+//Route::get('/', [SessionController::class , 'index']);
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/store-session', [SessionController::class , 'storeSession']);
 
